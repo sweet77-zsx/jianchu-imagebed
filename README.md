@@ -13,14 +13,17 @@
 [![TypeScript](https://img.shields.io/badge/TypeScript-6.0-blue.svg?style=flat-square&logo=typescript)](https://www.typescriptlang.org/)
 [![Element Plus](https://img.shields.io/badge/Element%20Plus-2.14-409EFF.svg?style=flat-square&logo=element-plus)](https://element-plus.org/)
 [![License](https://img.shields.io/badge/License-MIT-orange.svg?style=flat-square)](./LICENSE)
+[![Live Demo](https://img.shields.io/badge/Demo-%E5%9C%A8%E7%BA%BF%E4%BD%93%E9%AA%8C-00d084?style=flat-square&logo=safari)](https://wlmworld.top/jianchu)
 
-[在线仓库](https://github.com/sweet77-zsx/jianchu-imagebed) · [功能特性](#-功能特性) · [快速上手](#-快速上手) · [存储桶配置指南](#-存储桶配置指南) · [常见问题排查](#-常见问题排查)
+[🌐 在线体验](https://wlmworld.top/jianchu) · [在线仓库](https://github.com/sweet77-zsx/jianchu-imagebed) · [功能特性](#-功能特性) · [快速上手](#-快速上手) · [存储桶配置指南](#-存储桶配置指南) · [常见问题排查](#-常见问题排查)
 
 </div>
 
 ---
 
 ## 📖 项目简介
+
+> 🌐 **在线体验地址**：[简储 - 纯静态 OSS 图床](https://wlmworld.top/jianchu)
 
 **简储 (JianChu)** 是一款专门针对个人自用场景打造的纯前端静态 S3 图床。无需租用任何服务器或编写后端接口，浏览器前端直接调用 S3 协议 API（支持 **七牛云 S3 兼容网关**、**自建 MinIO**、**AWS S3**、**Cloudflare R2** 等所有 S3 兼容对象存储服务）。
 
