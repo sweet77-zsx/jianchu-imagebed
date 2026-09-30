@@ -1,0 +1,30 @@
+{
+  "name": "jianchu-imagebed",
+  "private": true,
+  "version": "1.0.0",
+  "description": "简储 (JianChu) - 轻量纯静态 S3 兼容对象存储图床",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vue-tsc -b && vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@aws-sdk/client-s3": "^3.1142.0",
+    "@aws-sdk/lib-storage": "^3.1142.0",
+    "@element-plus/icons-vue": "^2.3.2",
+    "browser-image-compression": "^2.0.2",
+    "element-plus": "^2.14.6",
+    "uuid": "^14.0.2",
+    "vue": "^3.5.42"
+  },
+  "devDependencies": {
+    "@types/node": "^24.13.3",
+    "@types/uuid": "^10.0.0",
+    "@vitejs/plugin-vue": "^6.0.8",
+    "@vue/tsconfig": "^0.9.1",
+    "typescript": "~6.0.2",
+    "vite": "^8.3.0",
+    "vue-tsc": "^3.3.11"
+  }
+}

@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" fill="none">
+  <defs>
+    <linearGradient id="cloudGrad" x1="20" y1="20" x2="108" y2="108" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#00C0FF" />
+      <stop offset="100%" stop-color="#3B82F6" />
+    </linearGradient>
+    <linearGradient id="cubeTop" x1="40" y1="42" x2="88" y2="66" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#E0F2FE" />
+      <stop offset="100%" stop-color="#BAE6FD" />
+    </linearGradient>
+    <linearGradient id="cubeLeft" x1="40" y1="66" x2="64" y2="104" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#38BDF8" />
+      <stop offset="100%" stop-color="#0284C7" />
+    </linearGradient>
+    <linearGradient id="cubeRight" x1="64" y1="66" x2="88" y2="104" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#0EA5E9" />
+      <stop offset="100%" stop-color="#0369A1" />
+    </linearGradient>
+    <filter id="glow" x="-10%" y="-10%" width="120%" height="120%" filterUnits="userSpaceOnUse">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#0284C7" flood-opacity="0.25" />
+    </filter>
+  </defs>
+
+  <!-- 云朵几何轮廓 -->
+  <path d="M96 52c0-15.464-12.536-28-28-28-12.04 0-22.37 7.61-26.31 18.28C38.98 42.11 36.56 42 34 42 20.745 42 10 52.745 10 66c0 12.378 9.356 22.568 21.365 23.82L96 90c12.15 0 22-9.85 22-22 0-10.457-7.3-19.208-17.18-21.46C100.27 48.65 96 52 96 52z" fill="url(#cloudGrad)" opacity="0.18" />
+  
+  <path d="M92 56c0-13.255-10.745-24-24-24-10.28 0-19.11 6.47-22.5 15.6C43.08 47.53 41.08 47.43 39 47.43 27.95 47.43 19 56.38 19 67.43c0 10.36 7.87 18.89 18 19.92h54c10.49 0 19-8.51 19-19 0-9.25-6.61-16.96-15.42-18.73A23.8 23.8 0 0092 56z" stroke="url(#cloudGrad)" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" fill="none" />
+
+  <!-- 3D 极简存储立方体 (居中) -->
+  <g filter="url(#glow)">
+    <!-- 顶面 -->
+    <path d="M64 44 L88 56 L64 68 L40 56 Z" fill="url(#cubeTop)" />
+    <!-- 左面 (带微窗口数据块) -->
+    <path d="M40 56 L64 68 L64 96 L40 84 Z" fill="url(#cubeLeft)" />
+    <!-- 右面 -->
+    <path d="M64 68 L88 56 L88 84 L64 96 Z" fill="url(#cubeRight)" />
+    <!-- 立方体窗口数据网格微光 -->
+    <path d="M45 63 L51 66 L51 74 L45 71 Z" fill="#FFFFFF" opacity="0.8" />
+    <path d="M53 67 L59 70 L59 78 L53 75 Z" fill="#FFFFFF" opacity="0.8" />
+    <path d="M45 74 L51 77 L51 84 L45 81 Z" fill="#FFFFFF" opacity="0.8" />
+    <path d="M53 78 L59 81 L59 88 L53 85 Z" fill="#FFFFFF" opacity="0.8" />
+  </g>
+</svg>

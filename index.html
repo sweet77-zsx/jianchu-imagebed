@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>简储 - 纯静态 OSS 图床</title>
+    <!--
+      【安全与配置使用须知】：
+      1. 本项目为纯前端方案，AK/SK保存在浏览器localStorage，仅限个人本地自用，禁止公网部署；
+      2. 使用S3存储桶必须提前配置Bucket CORS跨域策略，否则浏览器会跨域报错；
+      3. 七牛云必须开启S3兼容网关，原生Kodo接口不适用本程序。
+    -->
+  </head>
+  <body>
+    <div id="app"></div>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
