@@ -140,7 +140,7 @@ const tabTitle = computed(() => {
 
 const switchToRemoteTab = () => {
   activeTab.value = 'remote';
-  loadRemoteFiles();
+  loadRemoteFiles(true);
 };
 
 const jumpToUpload = () => {

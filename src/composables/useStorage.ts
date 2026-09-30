@@ -375,15 +375,18 @@ export function useStorage() {
 
   /**
    * 刷新远端文件列表 (按当前查看的厂商)
+   * @param silent 是否静默刷新（若凭证未就绪时不弹窗打扰）
    */
-  const loadRemoteFiles = async () => {
+  const loadRemoteFiles = async (silent = false) => {
     const provider = currentProvider.value;
     const cfg = multiConfigs[provider];
     const meta = PROVIDERS_META.find((p) => p.id === provider);
 
     const status = getProviderStatus(provider);
     if (status !== 'ready') {
-      ElMessage.warning(`【${meta?.name}】尚未配置或凭证已过期`);
+      if (!silent) {
+        ElMessage.warning(`【${meta?.name}】尚未配置或凭证已过期`);
+      }
       return;
     }
 

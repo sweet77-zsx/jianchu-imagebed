@@ -84,3 +84,11 @@ a:hover {
   overflow: hidden;
   box-shadow: 0 12px 32px rgba(0, 0, 0, 0.12);
 }
+
+/* Element Plus 全局消息通知优化：移至顶部控制台导航条下方，绝不遮挡顶部操作按钮与胶囊Tab */
+.el-message {
+  margin-top: 80px !important;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12) !important;
+  border-radius: 12px !important;
+  z-index: 3000 !important;
+}

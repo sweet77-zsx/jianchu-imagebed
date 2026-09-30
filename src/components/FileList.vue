@@ -80,25 +80,44 @@
     <div class="list-content-area" v-loading="isLoadingRemote && activeTab === 'remote'">
       <!-- 空数据状态 -->
       <div v-if="paginatedList.length === 0" class="empty-state">
-        <div class="empty-icon">📭</div>
-        <div class="empty-text">
-          {{
-            searchKeyword
-              ? '没有找到匹配的图片文件'
-              : activeTab === 'history'
-              ? '暂无上传历史记录，去上传区传一张试试吧~'
-              : '当前存储空间此目录下暂无文件或尚未拉取'
-          }}
-        </div>
-        <el-button
-          v-if="activeTab === 'remote'"
-          type="primary"
-          size="small"
-          @click="handleRefreshRemote"
-          style="margin-top: 14px"
-        >
-          从 S3 存储桶拉取文件
-        </el-button>
+        <template v-if="activeTab === 'remote' && !isCurrentReady">
+          <div class="empty-icon">🔑</div>
+          <div class="empty-text">
+            当前云厂商【{{ currentMeta.name }}】尚未配置或凭证已失效
+          </div>
+          <p class="empty-subtip" style="font-size: 13px; color: #94a3b8; margin-top: 6px;">
+            请先前往配置其 Access Key、Secret Key 与 Bucket 存储空间参数
+          </p>
+          <el-button
+            type="primary"
+            size="default"
+            @click="activeTab = 'config'"
+            style="margin-top: 14px; border-radius: 8px"
+          >
+            ⚙️ 立即前往配置【{{ currentMeta.name }}】
+          </el-button>
+        </template>
+        <template v-else>
+          <div class="empty-icon">📭</div>
+          <div class="empty-text">
+            {{
+              searchKeyword
+                ? '没有找到匹配的图片文件'
+                : activeTab === 'history'
+                ? '暂无上传历史记录，去上传区传一张试试吧~'
+                : '当前存储空间此目录下暂无文件或尚未拉取'
+            }}
+          </div>
+          <el-button
+            v-if="activeTab === 'remote'"
+            type="primary"
+            size="small"
+            @click="handleRefreshRemote"
+            style="margin-top: 14px"
+          >
+            从 S3 存储桶拉取文件
+          </el-button>
+        </template>
       </div>
 
       <!-- 模式一：网格卡片视图 (Grid Mode) -->
@@ -261,12 +280,14 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue';
 import { ElMessageBox } from 'element-plus';
-import { useStorage } from '../composables/useStorage';
+import { useStorage, getProviderStatus } from '../composables/useStorage';
+import { PROVIDERS_META } from '../utils/providers';
 import { formatBytes, formatDateTime, formatOutputUrl } from '../utils/format';
 import { copyToClipboard } from '../utils/clipboard';
 import type { UploadRecord, RemoteFileItem, UrlFormat } from '../types';
 
 const {
+  currentProvider,
   activeTab,
   viewMode,
   searchKeyword,
@@ -279,6 +300,14 @@ const {
   clearAllHistory,
   deleteRemoteFile,
 } = useStorage();
+
+const currentMeta = computed(() => {
+  return PROVIDERS_META.find((p) => p.id === currentProvider.value) || PROVIDERS_META[0];
+});
+
+const isCurrentReady = computed(() => {
+  return getProviderStatus(currentProvider.value) === 'ready';
+});
 
 const currentPage = ref(1);
 const pageSize = ref(24);

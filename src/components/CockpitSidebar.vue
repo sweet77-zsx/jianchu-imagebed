@@ -144,7 +144,7 @@ const onSelectProvider = (provider: StorageProvider) => {
 
 const switchToRemoteTab = () => {
   activeTab.value = 'remote';
-  loadRemoteFiles();
+  loadRemoteFiles(true);
 };
 
 const handlePrimaryAction = () => {
