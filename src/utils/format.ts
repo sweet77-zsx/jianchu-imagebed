@@ -45,7 +45,7 @@ export function formatDateTime(dateInput?: string | number | Date): string {
 }
 
 /**
- * 链接模板渲染：支持 ${domain}、${prefix}、${scope}、${name} 变量替换
+ * 链接模板渲染：支持 ${domain}、${key}、${prefix}、${scope}、${name} 变量替换
  * 会自动处理连续多余的斜杠，并保证协议前缀正确
  */
 export function renderUrlTemplate(
@@ -62,18 +62,29 @@ export function renderUrlTemplate(
   scope = (scope || '').trim().replace(/^\/+|\/+$/g, '');
   // 去除 name 前面的 /
   name = (name || '').trim().replace(/^\/+/, '');
+  // 去除 key 前面的 /
+  const cleanKey = (key || '').trim().replace(/^\/+/, '');
 
   let res = template || '${domain}/${prefix}/${scope}/${name}';
 
-  // 如果模板中指定了 ${key}，优先替换实际 S3 对象的完整路径 Key
-  if (key && res.includes('${key}')) {
-    res = res.replace(/\$\{key\}/g, key.replace(/^\/+/, ''));
+  // 1. 如果存在实际 S3 对象完整 Key，优先对模板中的路径组合进行精确替换，防止目录重叠或重复拼接
+  if (cleanKey) {
+    if (res.includes('${key}')) {
+      res = res.replace(/\$\{key\}/g, cleanKey);
+    }
+    // 匹配常规路径组合并直接替换为真实的 cleanKey
+    if (res.includes('${prefix}/${scope}/${name}')) {
+      res = res.replace(/\$\{prefix\}\/\$\{scope\}\/\$\{name\}/g, cleanKey);
+    }
+    if (res.includes('${prefix}/${name}')) {
+      res = res.replace(/\$\{prefix\}\/\$\{name\}/g, cleanKey);
+    }
   }
 
-  // 关键修复：如果模板中没有显式写 ${scope}，但用户配置了有效的 scope（例如 default），
-  // 并且模板中使用了 ${prefix}，则自动将前缀路径补充为 ${prefix}/${scope}，与 S3 实际存储路径完全一致！
+  // 2. 如果模板中没有显式写 ${scope}，但配置了有效 scope，且未使用完整的 key 替换，
+  // 并且模板中使用了 ${prefix}，且 prefix 末尾未包含 scope，才补充 ${scope}
   if (!res.includes('${scope}') && scope) {
-    if (res.includes('${prefix}')) {
+    if (res.includes('${prefix}') && !prefix.endsWith(scope) && !prefix.endsWith(`/${scope}`)) {
       res = res.replace(/\$\{prefix\}/g, `${prefix}/${scope}`);
     }
   }

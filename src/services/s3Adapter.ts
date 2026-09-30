@@ -104,6 +104,27 @@ export class S3Adapter {
   }
 
   /**
+   * 获取有效的访问域名，优先使用自定义域名，若未配置则根据 Endpoint 与风格自动推导
+   */
+  public getEffectiveDomain(): string {
+    if (this.config?.domain && this.config.domain.trim()) {
+      return this.config.domain.trim();
+    }
+    if (!this.config) return '';
+    const endpoint = (this.config.endpoint || '').trim().replace(/\/+$/, '');
+    const bucket = (this.config.bucket || '').trim();
+    if (!endpoint) return '';
+
+    if (this.config.forcePathStyle) {
+      return bucket ? `${endpoint}/${bucket}` : endpoint;
+    }
+
+    const cleanEndpoint = endpoint.replace(/^https?:\/\//, '');
+    const protocol = endpoint.startsWith('http://') ? 'http://' : 'https://';
+    return bucket ? `${protocol}${bucket}.${cleanEndpoint}` : endpoint;
+  }
+
+  /**
    * 弹出直观的 CORS / 网络连接排查弹窗
    */
   public showCorsDiagnosticHelp(originalError?: any) {
@@ -252,7 +273,7 @@ export class S3Adapter {
       const filename = keyParts[keyParts.length - 1];
 
       const url = renderUrlTemplate(this.config.urlTemplate, {
-        domain: this.config.domain,
+        domain: this.getEffectiveDomain(),
         prefix: this.config.prefix,
         scope: this.config.scope,
         name: filename,
@@ -316,11 +337,10 @@ export class S3Adapter {
 
           const parts = item.Key.split('/');
           const filename = parts[parts.length - 1];
-          const filePrefix = parts.length > 1 ? parts.slice(0, -1).join('/') : '';
 
           const url = renderUrlTemplate(this.config.urlTemplate, {
-            domain: this.config.domain,
-            prefix: filePrefix || this.config.prefix,
+            domain: this.getEffectiveDomain(),
+            prefix: this.config.prefix,
             scope: this.config.scope,
             name: filename,
             key: item.Key,
