@@ -176,8 +176,8 @@ onMounted(() => {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 14px 28px;
-  background: rgba(255, 255, 255, 0.85);
+  padding: 16px 32px;
+  background: rgba(255, 255, 255, 0.88);
   backdrop-filter: blur(12px);
   border-bottom: 1px solid rgba(226, 232, 240, 0.8);
   position: sticky;
@@ -190,16 +190,16 @@ onMounted(() => {
 .bar-left-section {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
 }
 
 .current-provider-chip {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 8px;
   background-color: #f1f5f9;
-  padding: 4px 10px;
-  border-radius: 8px;
+  padding: 6px 12px;
+  border-radius: 10px;
   cursor: pointer;
   transition: all 0.2s;
   border: 1px solid #e2e8f0;
@@ -211,31 +211,31 @@ onMounted(() => {
 }
 
 .chip-icon {
-  font-size: 15px;
+  font-size: 16px;
 }
 
 .chip-name {
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 700;
   color: #1e293b;
 }
 
 .chip-tag {
-  font-size: 10px;
+  font-size: 11px;
   color: #64748b;
   background: #ffffff;
-  padding: 1px 4px;
+  padding: 1px 6px;
   border-radius: 4px;
 }
 
 .divider {
   color: #cbd5e1;
-  font-size: 14px;
+  font-size: 15px;
 }
 
 .page-title {
   margin: 0;
-  font-size: 17px;
+  font-size: 18px;
   font-weight: 700;
   color: #0f172a;
 }
@@ -246,21 +246,21 @@ onMounted(() => {
   align-items: center;
   background: #ffffff;
   border: 1px solid #e2e8f0;
-  padding: 4px;
+  padding: 4px 6px;
   border-radius: 30px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
-  gap: 2px;
+  gap: 4px;
 }
 
 .capsule-tab-item {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 8px;
   background: transparent;
   border: none;
-  padding: 6px 14px;
-  border-radius: 20px;
-  font-size: 13px;
+  padding: 8px 18px;
+  border-radius: 22px;
+  font-size: 14px;
   font-weight: 500;
   color: #64748b;
   cursor: pointer;
@@ -279,7 +279,7 @@ onMounted(() => {
 }
 
 .tab-icon {
-  font-size: 14px;
+  font-size: 15px;
 }
 
 /* 顶部右侧徽标 */
@@ -295,17 +295,17 @@ onMounted(() => {
   gap: 6px;
   background: #ffffff;
   border: 1px solid #e2e8f0;
-  padding: 4px 10px;
+  padding: 6px 12px;
   border-radius: 20px;
-  font-size: 12px;
+  font-size: 13px;
 }
 
 .hint-tag {
   background: #e0f2fe;
   color: #0284c7;
-  font-size: 10px;
+  font-size: 11px;
   font-weight: 600;
-  padding: 1px 6px;
+  padding: 2px 7px;
   border-radius: 10px;
 }
 
@@ -316,13 +316,13 @@ onMounted(() => {
 .active-upload-badge {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 8px;
   background-color: #ecfdf5;
   border: 1px solid #a7f3d0;
   color: #059669;
-  padding: 5px 12px;
+  padding: 6px 14px;
   border-radius: 20px;
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.2s;
@@ -333,8 +333,8 @@ onMounted(() => {
 }
 
 .status-green-dot {
-  width: 7px;
-  height: 7px;
+  width: 8px;
+  height: 8px;
   background-color: #10b981;
   border-radius: 50%;
   box-shadow: 0 0 6px rgba(16, 185, 129, 0.6);
@@ -343,8 +343,8 @@ onMounted(() => {
 /* 主内容区 */
 .cockpit-content-container {
   flex: 1;
-  padding: 24px 28px;
-  max-width: 1300px;
+  padding: 28px 36px;
+  max-width: 1400px;
   width: 100%;
   margin: 0 auto;
 }

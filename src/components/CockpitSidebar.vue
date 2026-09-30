@@ -169,7 +169,7 @@ const getStatusTitle = (provider: StorageProvider) => {
 
 <style scoped>
 .cockpit-sidebar {
-  width: 250px;
+  width: 290px;
   background-color: #f8fafc;
   border-right: 1px solid #e2e8f0;
   display: flex;
@@ -183,7 +183,7 @@ const getStatusTitle = (provider: StorageProvider) => {
 
 /* 顶部操作大按钮（对标参考截图） */
 .sidebar-top-action {
-  padding: 18px 16px 12px;
+  padding: 20px 18px 14px;
 }
 
 .btn-sidebar-primary {
@@ -191,22 +191,22 @@ const getStatusTitle = (provider: StorageProvider) => {
   background: linear-gradient(135deg, #0ea5e9 0%, #2563eb 100%);
   color: #ffffff;
   border: none;
-  padding: 10px 16px;
-  border-radius: 10px;
-  font-size: 14px;
+  padding: 12px 18px;
+  border-radius: 12px;
+  font-size: 15px;
   font-weight: 600;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
-  box-shadow: 0 4px 12px rgba(14, 165, 233, 0.28);
+  gap: 10px;
+  box-shadow: 0 4px 14px rgba(14, 165, 233, 0.28);
   transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .btn-sidebar-primary:hover {
   transform: translateY(-1px);
-  box-shadow: 0 6px 16px rgba(14, 165, 233, 0.38);
+  box-shadow: 0 6px 18px rgba(14, 165, 233, 0.38);
   background: linear-gradient(135deg, #38bdf8 0%, #1d4ed8 100%);
 }
 
@@ -214,105 +214,124 @@ const getStatusTitle = (provider: StorageProvider) => {
   transform: translateY(0);
 }
 
+.btn-icon {
+  font-size: 16px;
+}
+
 /* 品牌区 */
 .sidebar-brand {
   display: flex;
   align-items: center;
-  gap: 12px;
-  padding: 8px 16px 16px;
+  gap: 14px;
+  padding: 10px 18px 18px;
   border-bottom: 1px solid #eef2f6;
 }
 
 .brand-logo-wrap {
-  width: 38px;
-  height: 38px;
-  border-radius: 10px;
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
   background: #ffffff;
   border: 1px solid #e2e8f0;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
 }
 
 .brand-svg-logo {
-  width: 26px;
-  height: 26px;
+  width: 30px;
+  height: 30px;
 }
 
 .brand-name {
-  font-size: 15px;
+  font-size: 16px;
   font-weight: 700;
   color: #0f172a;
   letter-spacing: -0.2px;
 }
 
 .brand-desc {
-  font-size: 11px;
+  font-size: 12px;
   color: #64748b;
+  margin-top: 1px;
 }
 
 /* 滚动菜单 */
 .sidebar-nav-scroll {
   flex: 1;
   overflow-y: auto;
-  padding: 14px 12px;
+  padding: 18px 14px;
 }
 
 .nav-section-title {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  font-size: 11px;
-  font-weight: 600;
-  color: #94a3b8;
-  padding: 0 8px 8px;
-  letter-spacing: 0.4px;
+  font-size: 12px;
+  font-weight: 700;
+  color: #64748b;
+  padding: 0 10px 10px;
+  letter-spacing: 0.5px;
   text-transform: uppercase;
 }
 
 .provider-count {
   background-color: #e2e8f0;
-  color: #475569;
-  font-size: 10px;
-  padding: 1px 6px;
-  border-radius: 10px;
+  color: #334155;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 12px;
 }
 
 /* 云厂商列表 */
 .providers-menu-list {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 6px;
 }
 
 .provider-menu-item {
   display: flex;
   align-items: center;
-  gap: 10px;
-  padding: 9px 12px;
-  border-radius: 9px;
+  gap: 12px;
+  padding: 11px 14px;
+  border-radius: 12px;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
+  border: 1px solid transparent;
 }
 
 .provider-menu-item:hover {
   background-color: #f1f5f9;
+  border-color: #e2e8f0;
 }
 
 /* 当前查看选中状态（对标参考截图的高亮蓝底胶囊） */
 .provider-menu-item.is-active {
   background-color: #e0f2fe;
   color: #0284c7;
+  border-color: #bae6fd;
 }
 
 .provider-icon {
-  font-size: 18px;
+  font-size: 22px;
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 24px;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  background-color: rgba(255, 255, 255, 0.7);
+  flex-shrink: 0;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
+}
+
+.provider-menu-item.is-active .provider-icon {
+  background-color: #ffffff;
+  box-shadow: 0 2px 6px rgba(2, 132, 199, 0.15);
 }
 
 .provider-label-wrap {
@@ -329,7 +348,7 @@ const getStatusTitle = (provider: StorageProvider) => {
 }
 
 .name-text {
-  font-size: 13px;
+  font-size: 14.5px;
   font-weight: 600;
   color: #1e293b;
   overflow: hidden;
@@ -342,18 +361,18 @@ const getStatusTitle = (provider: StorageProvider) => {
 }
 
 .provider-tag-sub {
-  font-size: 10px;
-  color: #94a3b8;
-  margin-top: 1px;
+  font-size: 11.5px;
+  color: #64748b;
+  margin-top: 2px;
 }
 
 .badge-active-tag {
-  font-size: 9px;
+  font-size: 10px;
   background-color: #10b981;
   color: #ffffff;
-  padding: 0 4px;
-  border-radius: 4px;
-  font-weight: 500;
+  padding: 1px 6px;
+  border-radius: 10px;
+  font-weight: 600;
   line-height: 14px;
 }
 
@@ -362,22 +381,25 @@ const getStatusTitle = (provider: StorageProvider) => {
   display: flex;
   align-items: center;
   justify-content: center;
+  padding-left: 4px;
 }
 
 .status-dot {
-  width: 8px;
-  height: 8px;
+  width: 9px;
+  height: 9px;
   border-radius: 50%;
   display: inline-block;
+  transition: all 0.2s;
 }
 
 .dot-ready {
   background-color: #10b981;
-  box-shadow: 0 0 6px rgba(16, 185, 129, 0.4);
+  box-shadow: 0 0 8px rgba(16, 185, 129, 0.6);
 }
 
 .dot-expired {
   background-color: #f59e0b;
+  box-shadow: 0 0 6px rgba(245, 158, 11, 0.4);
 }
 
 .dot-unconfigured {
@@ -388,16 +410,16 @@ const getStatusTitle = (provider: StorageProvider) => {
 .quick-nav-list {
   display: flex;
   flex-direction: column;
-  gap: 3px;
+  gap: 5px;
 }
 
 .quick-nav-item {
   display: flex;
   align-items: center;
-  gap: 10px;
-  padding: 8px 12px;
-  border-radius: 8px;
-  font-size: 13px;
+  gap: 12px;
+  padding: 11px 14px;
+  border-radius: 10px;
+  font-size: 14px;
   color: #475569;
   cursor: pointer;
   transition: all 0.2s;
@@ -415,12 +437,12 @@ const getStatusTitle = (provider: StorageProvider) => {
 }
 
 .nav-item-icon {
-  font-size: 15px;
+  font-size: 17px;
 }
 
 /* 底部功能条 */
 .sidebar-footer {
-  padding: 14px 16px;
+  padding: 16px 18px;
   border-top: 1px solid #e2e8f0;
   display: flex;
   flex-direction: column;
@@ -431,12 +453,12 @@ const getStatusTitle = (provider: StorageProvider) => {
 .footer-link-item {
   display: flex;
   align-items: center;
-  gap: 8px;
-  font-size: 12px;
+  gap: 10px;
+  font-size: 13px;
   color: #64748b;
   text-decoration: none;
-  padding: 4px 6px;
-  border-radius: 6px;
+  padding: 6px 10px;
+  border-radius: 8px;
   transition: all 0.2s;
 }
 
@@ -445,8 +467,14 @@ const getStatusTitle = (provider: StorageProvider) => {
   color: #0284c7;
 }
 
+.footer-icon {
+  display: flex;
+  align-items: center;
+  font-size: 15px;
+}
+
 .footer-version-tag {
-  font-size: 10px;
+  font-size: 11px;
   color: #94a3b8;
   margin-top: 4px;
   text-align: center;

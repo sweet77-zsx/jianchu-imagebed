@@ -1,25 +1,54 @@
 <template>
   <div class="upload-section">
-    <!-- 当前上传存储厂商状态提示条 -->
+    <!-- 当前上传存储厂商状态卡片（适当放大、层级分明、信息全面） -->
     <div class="target-provider-banner">
       <div class="banner-left">
-        <span class="provider-pill-icon">{{ currentActiveMeta.icon }}</span>
-        <span class="banner-label">当前上传目标：</span>
-        <span class="banner-target-name">{{ currentActiveMeta.name }} ({{ currentActiveConfig.bucket || '未设Bucket' }})</span>
-        <span v-if="isActiveReady" class="badge-status-ready">已就绪</span>
-        <span v-else class="badge-status-warn">未配置完整</span>
+        <div class="provider-pill-avatar" :title="currentActiveMeta.name">
+          {{ currentActiveMeta.icon }}
+        </div>
+        <div class="banner-provider-info">
+          <div class="banner-target-title-row">
+            <span class="banner-label">当前默认上传目标：</span>
+            <span class="banner-target-name">{{ currentActiveMeta.name }}</span>
+            <span v-if="isActiveReady" class="badge-status-ready">
+              <span class="badge-dot-ready"></span>已就绪
+            </span>
+            <span v-else class="badge-status-warn">
+              <span class="badge-dot-warn"></span>未配置完整
+            </span>
+          </div>
+          <div class="banner-details-row">
+            <span class="banner-detail-item">
+              <span class="detail-label">存储桶:</span>
+              <span class="detail-value">{{ currentActiveConfig.bucket || '未设置 Bucket' }}</span>
+            </span>
+            <span v-if="currentActiveConfig.prefix" class="banner-detail-item">
+              <span class="detail-label">目录前缀:</span>
+              <span class="detail-value">{{ currentActiveConfig.prefix }}</span>
+            </span>
+            <span v-if="currentActiveConfig.domain" class="banner-detail-item">
+              <span class="detail-label">加速域名:</span>
+              <span class="detail-value">{{ currentActiveConfig.domain }}</span>
+            </span>
+          </div>
+        </div>
       </div>
-      <button class="btn-switch-provider" @click="activeTab = 'config'">
-        ⚙ 切换/配置存储厂商
-      </button>
+      <div class="banner-right-actions">
+        <button class="btn-switch-provider" @click="activeTab = 'config'" title="前往配置此厂商或切换默认存储源">
+          <span class="action-icon">⚙️</span>
+          <span>切换 / 配置云厂商</span>
+        </button>
+      </div>
     </div>
 
-    <!-- 上方提示文字 -->
+    <!-- 剪贴板快捷粘贴提示 -->
     <div class="paste-hint-text">
-      你也可以点击此处，然后粘贴你要上传的图片 (Ctrl + V)
+      <span>支持点击选择文件、拖拽至下方区域，或直接按下 </span>
+      <kbd class="kbd-key">Ctrl</kbd> + <kbd class="kbd-key">V</kbd>
+      <span> 极速粘贴直传</span>
     </div>
 
-    <!-- 大虚线框上传区域 -->
+    <!-- 大尺寸虚线框上传区域 -->
     <div
       class="upload-dropzone"
       :class="{ 'is-dragover': isDragOver, 'is-uploading': isUploading }"
@@ -52,10 +81,24 @@
         </div>
 
         <div class="dropzone-text">
-          <span>拖动文件到这里或 </span>
-          <span class="upload-trigger-link">点击上传</span>
+          <span>拖拽图片到这里，或 </span>
+          <span class="upload-trigger-link">点击选择本地图片</span>
         </div>
-        <div class="sub-dropzone-tip">支持 JPG、PNG、GIF、WebP、SVG 等多种格式，自动前端图片无损压缩</div>
+
+        <!-- 格式徽标条 -->
+        <div class="supported-formats-pills">
+          <span class="format-pill">JPG</span>
+          <span class="format-pill">PNG</span>
+          <span class="format-pill">WebP</span>
+          <span class="format-pill">GIF</span>
+          <span class="format-pill">SVG</span>
+          <span class="format-pill">BMP</span>
+          <span class="format-pill">AVIF</span>
+        </div>
+
+        <div class="sub-dropzone-tip">
+          支持多图批量上传 · WebWorker 客户端本地轻量压缩 · 秒级直传到目标云存储
+        </div>
       </div>
 
       <!-- 上传中进度状态 -->
@@ -84,7 +127,7 @@
       </div>
     </div>
 
-    <!-- 上传控制栏 -->
+    <!-- 上传控制栏 (适度放大) -->
     <div class="upload-controls">
       <!-- 自动复制开关 -->
       <div class="control-item capsule-item">
@@ -93,7 +136,7 @@
           v-model="autoCopy"
           active-color="#0284c7"
           inactive-color="#dcdfe6"
-          size="small"
+          size="default"
         />
       </div>
 
@@ -103,10 +146,10 @@
           v-model="urlFormat"
           placeholder="链接格式"
           size="default"
-          style="width: 140px"
+          style="width: 160px"
         >
           <el-option label="原始链接 (Raw)" value="raw" />
-          <el-option label="Markdown" value="markdown" />
+          <el-option label="Markdown 格式" value="markdown" />
           <el-option label="HTML 标签" value="html" />
         </el-select>
       </div>
@@ -118,7 +161,7 @@
           v-model="enableCompress"
           active-color="#0284c7"
           inactive-color="#dcdfe6"
-          size="small"
+          size="default"
         />
       </div>
     </div>
@@ -256,116 +299,228 @@ onUnmounted(() => {
   width: 100%;
 }
 
-/* 目标云存储条 */
+/* 目标云存储条（适当放大比例，更具控制台视觉张力） */
 .target-provider-banner {
   width: 100%;
-  max-width: 760px;
+  max-width: 960px;
   background: #ffffff;
   border: 1px solid #e2e8f0;
-  border-radius: 10px;
-  padding: 10px 16px;
-  margin-bottom: 16px;
+  border-radius: 14px;
+  padding: 16px 22px;
+  margin-bottom: 8px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.03);
+  transition: all 0.2s ease;
+  gap: 16px;
+  flex-wrap: wrap;
 }
 
 .banner-left {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 14px;
+  flex: 1;
+  min-width: 280px;
 }
 
-.provider-pill-icon {
-  font-size: 16px;
+.provider-pill-avatar {
+  width: 48px;
+  height: 48px;
+  font-size: 26px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+  border: 1px solid #bae6fd;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  box-shadow: 0 2px 6px rgba(2, 132, 199, 0.12);
+}
+
+.banner-provider-info {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  flex: 1;
+}
+
+.banner-target-title-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
 }
 
 .banner-label {
-  font-size: 13px;
+  font-size: 13.5px;
   color: #64748b;
+  font-weight: 500;
 }
 
 .banner-target-name {
-  font-size: 13px;
+  font-size: 17px;
   font-weight: 700;
   color: #0f172a;
 }
 
 .badge-status-ready {
-  font-size: 10px;
+  font-size: 11px;
   background-color: #ecfdf5;
   color: #059669;
   border: 1px solid #a7f3d0;
-  padding: 1px 6px;
-  border-radius: 10px;
-  font-weight: 500;
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.badge-dot-ready {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: #10b981;
+  box-shadow: 0 0 6px rgba(16, 185, 129, 0.8);
 }
 
 .badge-status-warn {
-  font-size: 10px;
+  font-size: 11px;
   background-color: #fff7ed;
   color: #c2410c;
   border: 1px solid #fed7aa;
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.badge-dot-warn {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: #f97316;
+}
+
+.banner-details-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.banner-detail-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+  color: #64748b;
+}
+
+.detail-label {
+  color: #94a3b8;
+}
+
+.detail-value {
+  color: #0284c7;
+  font-weight: 600;
+  background: #f0f9ff;
   padding: 1px 6px;
-  border-radius: 10px;
-  font-weight: 500;
+  border-radius: 4px;
+  border: 1px solid #e0f2fe;
+}
+
+.banner-right-actions {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
 }
 
 .btn-switch-provider {
-  background: transparent;
-  border: 1px solid #e2e8f0;
+  background: #f8fafc;
+  border: 1px solid #cbd5e1;
   color: #0284c7;
-  font-size: 12px;
-  font-weight: 500;
-  padding: 4px 10px;
-  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 8px 16px;
+  border-radius: 8px;
   cursor: pointer;
-  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
 }
 
 .btn-switch-provider:hover {
   background-color: #f0f9ff;
   border-color: #0284c7;
+  color: #0369a1;
+  transform: translateY(-1px);
+  box-shadow: 0 3px 8px rgba(2, 132, 199, 0.15);
 }
 
+/* 快捷键提示条 */
 .paste-hint-text {
-  font-size: 14px;
+  font-size: 14.5px;
   font-weight: 600;
   color: #334155;
-  margin-bottom: 12px;
+  margin: 16px 0 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  flex-wrap: wrap;
 }
 
-/* 虚线上传区 */
+.kbd-key {
+  font-family: inherit;
+  font-size: 12.5px;
+  font-weight: 700;
+  color: #1e293b;
+  background: #ffffff;
+  border: 1px solid #cbd5e1;
+  border-bottom: 2px solid #94a3b8;
+  padding: 2px 7px;
+  border-radius: 5px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+/* 大虚线框上传区域（适当放大、视觉更震撼、交互更直观） */
 .upload-dropzone {
   width: 100%;
-  max-width: 760px;
-  height: 220px;
-  background: #ffffff;
-  border: 2px dashed #cbd5e1;
-  border-radius: 12px;
+  max-width: 960px;
+  min-height: 330px;
+  background: linear-gradient(180deg, #ffffff 0%, #fbfcfe 100%);
+  border: 2px dashed #94a3b8;
+  border-radius: 16px;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  transition: all 0.25s ease-in-out;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
   outline: none;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.02);
+  padding: 32px 20px;
 }
 
 .upload-dropzone:hover {
   border-color: #0284c7;
   background-color: #f8fafc;
-  transform: translateY(-1px);
-  box-shadow: 0 6px 16px rgba(2, 132, 199, 0.08);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 28px rgba(2, 132, 199, 0.12);
 }
 
 .upload-dropzone.is-dragover {
   border-color: #0284c7;
   background-color: #f0f9ff;
-  transform: scale(1.01);
-  box-shadow: 0 8px 24px rgba(2, 132, 199, 0.16);
+  transform: scale(1.015);
+  box-shadow: 0 12px 32px rgba(2, 132, 199, 0.2);
 }
 
 .hidden-file-input {
@@ -377,59 +532,87 @@ onUnmounted(() => {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 10px;
+  gap: 14px;
   pointer-events: none;
+  text-align: center;
 }
 
 .cloud-icon-wrapper {
-  width: 60px;
-  height: 60px;
+  width: 90px;
+  height: 90px;
   display: flex;
   align-items: center;
   justify-content: center;
   color: #94a3b8;
-  transition: color 0.2s, transform 0.2s;
+  border-radius: 50%;
+  background: #f1f5f9;
+  transition: all 0.25s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
 }
 
 .upload-dropzone:hover .cloud-icon-wrapper {
   color: #0284c7;
-  transform: translateY(-3px);
+  background: #e0f2fe;
+  transform: translateY(-4px) scale(1.05);
 }
 
 .cloud-icon {
-  width: 56px;
-  height: 56px;
+  width: 68px;
+  height: 68px;
 }
 
 .dropzone-text {
-  font-size: 14px;
-  color: #475569;
+  font-size: 19px;
+  font-weight: 600;
+  color: #1e293b;
 }
 
 .upload-trigger-link {
   color: #0284c7;
-  font-weight: 600;
+  font-weight: 700;
   text-decoration: underline;
   cursor: pointer;
 }
 
-.sub-dropzone-tip {
+/* 格式徽标条 */
+.supported-formats-pills {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.format-pill {
   font-size: 11px;
-  color: #94a3b8;
+  font-weight: 700;
+  color: #475569;
+  background-color: #f1f5f9;
+  padding: 2px 8px;
+  border-radius: 6px;
+  border: 1px solid #e2e8f0;
+}
+
+.sub-dropzone-tip {
+  font-size: 13px;
+  color: #64748b;
+  max-width: 600px;
+  line-height: 1.5;
 }
 
 /* 进度显示 */
 .upload-progress-content {
-  width: 80%;
+  width: 85%;
+  max-width: 600px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 14px;
+  gap: 16px;
 }
 
 .uploading-spinner {
-  width: 40px;
-  height: 40px;
+  width: 52px;
+  height: 52px;
 }
 
 .spinner-svg {
@@ -470,11 +653,11 @@ onUnmounted(() => {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
 }
 
 .uploading-title {
-  font-size: 13px;
+  font-size: 14.5px;
   color: #475569;
   max-width: 90%;
   overflow: hidden;
@@ -484,37 +667,37 @@ onUnmounted(() => {
 
 .file-name {
   color: #0f172a;
-  font-weight: 600;
+  font-weight: 700;
 }
 
 .progress-bar-container {
   width: 100%;
-  height: 6px;
+  height: 8px;
   background-color: #e2e8f0;
-  border-radius: 3px;
+  border-radius: 4px;
   overflow: hidden;
 }
 
 .progress-bar-fill {
   height: 100%;
   background: linear-gradient(90deg, #0284c7, #10b981);
-  border-radius: 3px;
+  border-radius: 4px;
   transition: width 0.2s ease;
 }
 
 .progress-text {
-  font-size: 12px;
-  color: #64748b;
-  font-weight: 600;
+  font-size: 14px;
+  color: #0284c7;
+  font-weight: 700;
 }
 
 /* 控制栏 */
 .upload-controls {
-  margin-top: 18px;
+  margin-top: 24px;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 16px;
+  gap: 20px;
   flex-wrap: wrap;
 }
 
@@ -526,14 +709,14 @@ onUnmounted(() => {
 .capsule-item {
   background-color: #ffffff;
   border: 1px solid #e2e8f0;
-  padding: 5px 12px;
-  border-radius: 20px;
-  gap: 8px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+  padding: 7px 16px;
+  border-radius: 24px;
+  gap: 10px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.03);
 }
 
 .control-label {
-  font-size: 12px;
+  font-size: 13.5px;
   color: #0284c7;
   font-weight: 600;
 }
